@@ -25,7 +25,7 @@ namespace Model
         private string _reportName;
 
         #endregion
-
+        
         #region Properties
 
         public GroupConfiguration Group { get; set; }
