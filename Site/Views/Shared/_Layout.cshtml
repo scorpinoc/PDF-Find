@@ -19,6 +19,12 @@
                 </button>
                 @Html.ActionLink("PDF Find", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li>@Html.ActionLink("Groups", "Index", "GroupConfigurations")</li>
+            <li>@Html.ActionLink("Reports", "Index", "ReportConfigurations")</li>
+        </ul>
+    </div>
             @*<div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>

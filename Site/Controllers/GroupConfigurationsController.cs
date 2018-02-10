@@ -17,7 +17,9 @@ namespace Site.Controllers
         // GET: GroupConfigurations
         public ActionResult Index()
         {
-            return View(db.GroupConfigurations.ToList());
+            var groups = db.GroupConfigurations.ToList();
+            //var gr = groups.First().Reports.ToList();
+            return View(groups);
         }
 
         // GET: GroupConfigurations/Details/5
