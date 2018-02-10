@@ -17,29 +17,50 @@ using ViewModel;
 
 namespace View
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
-	public partial class SettingsWindow : Window
-	{
-		public SettingsWindow()
-		{
-			InitializeComponent();
-		}
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class SettingsWindow : Window
+    {
+        public ICommand SaveCommand { get; }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+        public SettingsWindow()
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Filter = "Exe file (*.exe)|*.exe";
+            SaveCommand = new Prism.Commands.DelegateCommand<bool?>(Save);
+
+            InitializeComponent();
+        }
+
+        private void ChooseAppPath(object sender, RoutedEventArgs e)
+        {
+            var fileDialog = new OpenFileDialog { Filter = "Exe file (*.exe)|*.exe" };
             if (fileDialog.ShowDialog() == true)
             {
-                lll.Text = fileDialog.InitialDirectory + fileDialog.FileName;
+                AppPath.Text = fileDialog.InitialDirectory + fileDialog.FileName;
             }
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Close(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void Save(bool? result)
+        {
+            if (result.Value)
+            {
+                var res = MessageBox.Show(this, "All chanhes saved. Close window?", "Operation complete", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.Yes);
+                if (res == MessageBoxResult.Yes)
+                {
+                    Close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Problem", $"Something wrong.. {result}", MessageBoxButton.OK);
+                MessageBox.Show($"Result {result}");
+            }
         }
     }
 }

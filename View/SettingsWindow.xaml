@@ -6,26 +6,75 @@
         xmlns:local="clr-namespace:View"
         xmlns:viewModel="clr-namespace:ViewModel;assembly=ViewModel"
         mc:Ignorable="d"
-        Title="PDF Find" Height="260" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="Coral" >
-    <Window.Resources>
-        <viewModel:RegistryApplicationConfigurator x:Key="AppConfigurator"></viewModel:RegistryApplicationConfigurator>
-    </Window.Resources>
+        Title="PDF Find" Height="260" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Background="Coral" 
+        x:Name="Window">
     <Window.Effect>
         <DropShadowEffect/>
     </Window.Effect>
-    <Grid>
-        <Button Content="Application" FontWeight="Bold" HorizontalAlignment="Left" Margin="22,79,0,0" VerticalAlignment="Top" Width="99" Height="23" RenderTransformOrigin="0.533,-1.019" Click="Button_Click"/>
-        <ComboBox HorizontalAlignment="Left" Margin="321,19,0,0" VerticalAlignment="Top" Width="142" Text="{Binding Source={StaticResource AppConfigurator}, Path=Language}">
-            <ComboBoxItem Name="English">English</ComboBoxItem>
-        </ComboBox>
-        <Button Content="Test Connection" FontWeight="Bold" HorizontalAlignment="Left" Margin="22,136,0,0" VerticalAlignment="Top" Width="99" Height="23" />
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="141,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="322" Text="{Binding Source={StaticResource AppConfigurator}, Path=DataBaseConnectionString}"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="141,79,0,0" TextWrapping="Wrap" IsReadOnly="True" VerticalAlignment="Top" Width="322" Name="lll" Text="{Binding Source={StaticResource AppConfigurator}, Path=ReaderPath}"/>
-        <Button Content="Cancel" FontWeight="Bold" HorizontalAlignment="Left" Margin="388,182,0,0" VerticalAlignment="Top" Width="75" Height="25" Click="Button_Click_1"/>
-        <Button Content="Apply" FontWeight="Bold" HorizontalAlignment="Left" Margin="289,182,0,0" VerticalAlignment="Top" Width="75" Height="25" Command="{Binding Source={StaticResource AppConfigurator}, Path=Save}"/>
-        <Label Content="Database connection string:" FontWeight="Bold" HorizontalAlignment="Left" Margin="141,107,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.449,-0.487" Width="200"/>
-        <Label Content="Choose application:" FontWeight="Bold" HorizontalAlignment="Left" Margin="141,50,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.449,-0.487" Width="135"/>
-        <Label Content="Language:" FontWeight="Bold" HorizontalAlignment="Left" Margin="243,15,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.449,-0.487" Width="73"/>
-
+    <Window.Resources>
+        <viewModel:RegistryApplicationConfigurator x:Key="AppConfigurator"></viewModel:RegistryApplicationConfigurator>
+        <local:CultureSwitcher x:Key="Resource"></local:CultureSwitcher>
+        <Style TargetType="Label">
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="20, 5, 20 ,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40*"></RowDefinition>
+            <RowDefinition Height="25*"></RowDefinition>
+            <RowDefinition Height="40*"></RowDefinition>
+            <RowDefinition Height="25*"></RowDefinition>
+            <RowDefinition Height="40*"></RowDefinition>
+            <RowDefinition Height="40*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="115*"></ColumnDefinition>
+            <ColumnDefinition Width="320*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Label Content="Language:" VerticalAlignment="Center" HorizontalAlignment="Left"></Label>
+            <ComboBox MinWidth="100" Margin="7" 
+                      ItemsSource="{Binding Source={StaticResource Resource}, Path=CultureList}"
+                      SelectedValue="{Binding Source={StaticResource AppConfigurator}, Path=Language}"
+                      SelectedItem="{Binding Source={StaticResource Resource}, Path=CurrentCulture}"
+                      DisplayMemberPath="NativeName" />
+        </StackPanel>
+        <Label Content="{Binding Source={StaticResource Resource}, Path=Resources.ChooseApplication}" Grid.Row="1" Grid.Column="1" />
+        <Button Content="{Binding Source={StaticResource Resource}, Path=Resources.ApplicationButton}" Grid.Row="2" Grid.Column="0" Margin="7"
+                Click="ChooseAppPath"></Button>
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="7" VerticalContentAlignment="Center" x:Name="AppPath"
+                 Text="{Binding Source={StaticResource AppConfigurator}, Path=ReaderPath, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <Button Content="{Binding Source={StaticResource Resource}, Path=Resources.TestConnectionButton}" Grid.Row="4" Grid.Column="0" Margin="7"></Button>
+        <Label Content="{Binding Source={StaticResource Resource}, Path=Resources.DatabaseConnectionString}" Grid.Row="3" Grid.Column="1"></Label>
+        <TextBox Grid.Row="4" Grid.Column="1" Margin="7"  VerticalContentAlignment="Center"
+                 Text="{Binding Source={StaticResource AppConfigurator}, Path=DataBaseConnectionString, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+        <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Margin="7" Padding="20, 5" MinWidth="75"
+                    Content="{Binding Source={StaticResource Resource}, Path=Resources.OkButton}" 
+                    Command="{Binding Source={StaticResource AppConfigurator}, Path=SaveCommand}" 
+                    CommandParameter="{Binding ElementName=Window, Path=SaveCommand}"/>
+            <Button 
+                Content="{Binding Source={StaticResource Resource}, Path=Resources.CancelButton}" 
+                Margin="7" Padding="20, 5" MinWidth="75"
+                Click="Close"></Button>
+        </StackPanel>
     </Grid>
 </Window>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -7,19 +7,54 @@
         xmlns:ViewModel="clr-namespace:ViewModel;assembly=ViewModel" 
         xmlns:Model="clr-namespace:Model;assembly=Model"
         mc:Ignorable="d"
-        Title="PDF Find - Settings Printer" Height="240" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="Coral">
+        Title="PDF Find - Settings Printer" Height="260" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="Coral">
+    <Window.Effect>
+        <DropShadowEffect/>
+    </Window.Effect>
+    <Window.Resources>
+        <ViewModel:RegistryApplicationConfigurator x:Key="AppConfigurator"></ViewModel:RegistryApplicationConfigurator>
+        <local:CultureSwitcher x:Key="Resource"></local:CultureSwitcher>
+        <Style TargetType="Label">
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="29*"></ColumnDefinition>
+            <ColumnDefinition Width="120*"></ColumnDefinition>
+            <ColumnDefinition Width="317*"></ColumnDefinition>
+            <ColumnDefinition Width="28*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 
-    <Grid ShowGridLines="True">
-        <ComboBox SelectedItem="{Binding Source={x:Static ViewModel:StateReport.Instance}, Path=CurrentReportConfiguration.PaperFormat, Mode=TwoWay}" ItemsSource="{Binding Source={x:Static ViewModel:StateReport.Instance},Path=PaperFormats}" HorizontalAlignment="Left" Margin="314,26,0,0" VerticalAlignment="Top" Width="62" Height="24"/>
-        <ComboBox HorizontalAlignment="Left" Margin="140,60,0,0" VerticalAlignment="Top" Width="236"/>
-        <CheckBox IsChecked="{Binding Source={x:Static ViewModel:StateReport.Instance}, Path=CurrentReportConfiguration.Duplex, Mode=TwoWay}" FontWeight="Bold" Content="Duplex mode " HorizontalAlignment="Left" Margin="22,122,0,0" VerticalAlignment="Top"/>
-        <RadioButton GroupName="CmbBox" FontWeight="Bold" Content="Printer from list:" HorizontalAlignment="Left" Margin="22,64,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.553,-0.84"/>
-        <RadioButton GroupName="CmbBox" IsChecked="True" FontWeight="Bold" Content="Manual printer:" HorizontalAlignment="Left" Margin="22,94,0,0" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Source={x:Static ViewModel:StateReport.Instance}, Path=CurrentReportConfiguration.PrinterName , Mode=TwoWay}" HorizontalAlignment="Left" Height="23" Margin="140,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="237"/>
-        <GroupBox FontWeight="Bold" Header="Settings" HorizontalAlignment="Left" Height="145" Margin="10,10,0,0" VerticalAlignment="Top" Width="380"/>
-        <Button Command="{Binding Source={x:Static ViewModel:StateReport.Instance}, Path=SaveCommand}"  Content="OK" FontWeight="Bold" HorizontalAlignment="Left" Margin="207,168,0,0" VerticalAlignment="Top" Width="75" Height="25"/>
-        <Button Content="Cancel" Click="Button_Click"  FontWeight="Bold" HorizontalAlignment="Left" Margin="301,168,0,0" VerticalAlignment="Top" Width="75" Height="25"/>
-        <Label Content="Paper format:" FontWeight="Bold" HorizontalAlignment="Left" Margin="212,24,0,0" VerticalAlignment="Top"/>
-
+        <Label Content="{Binding Source={StaticResource Resource}, Path=Resources.PapperFormat}"
+               Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Margin="140,7,80,7"></Label>
+        <ComboBox Grid.Row="1" Grid.Column="2" Width="70" Margin="0,7,7,7" HorizontalAlignment="Right"
+                  SelectedItem="{Binding Source={x:Static ViewModel:StateReport.Instance}, Path=CurrentReportConfiguration.PaperFormat, Mode=TwoWay}"
+                  ItemsSource="{Binding Source={x:Static ViewModel:StateReport.Instance},Path=PaperFormats}"></ComboBox>
+        <RadioButton Content="{Binding Source={StaticResource Resource}, Path=Resources.PrinterFromList}"
+                     GroupName="CmbBox" IsChecked="True" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Height="15" Margin="0,13" ></RadioButton>
+        <ComboBox Grid.Row="2" Grid.Column="2" Margin="7"></ComboBox>
+        <RadioButton Content="{Binding Source={StaticResource Resource}, Path=Resources.ManualPrinter}" GroupName="CmbBox" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Height="15" Margin="0,13" ></RadioButton>
+        <TextBox Grid.Row="3" Grid.Column="2" Margin="7" VerticalContentAlignment="Center" Text="{Binding Source={x:Static ViewModel:StateReport.Instance}, Path=CurrentReportConfiguration.PrinterName , Mode=TwoWay}"></TextBox>
+        <CheckBox Content="{Binding Source={StaticResource Resource}, Path=Resources.DuplexMode}" IsChecked="{Binding Source={x:Static ViewModel:StateReport.Instance}, Path=CurrentReportConfiguration.Duplex, Mode=TwoWay}" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold"></CheckBox>
+        <Button Content="{Binding Source={StaticResource Resource}, Path=Resources.OkButton}"
+                Command="{Binding Source={x:Static ViewModel:StateReport.Instance}, Path=SaveCommand}"
+                Grid.Row="5" Grid.Column="2" Width="80"  Margin="10,7,10,7"></Button>
+        <Button Content="{Binding Source={StaticResource Resource}, Path=Resources.CancelButton}" Grid.Row="5" Grid.Column="2" Width="80"  Margin="200,7,10,7"></Button>
     </Grid>
 </Window>
