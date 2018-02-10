@@ -60,9 +60,9 @@ namespace Model
                 .HasRequired(report => report.Group)
                 .WithMany(group => group.Reports);
 
-            //groupConfiguration
-            //    .HasMany(group => group.Reports)
-            //    .WithRequired(rep => rep.Group);
+            groupConfiguration
+                .HasMany(group => group.Reports)
+                .WithRequired(rep => rep.Group);
 
             base.OnModelCreating(modelBuilder);
         }
